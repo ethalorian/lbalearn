@@ -1,11 +1,17 @@
+'use client';
+
+import React, { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export type QuestionType = 'multiple-choice' | 'true-false' | 'text';
 
 export interface BaseQuestion {
   type: QuestionType;
   question: string;
-  correctAnswer: number | string;
+  correctAnswer: number | string | boolean;
+  explanation?: string;  // Add this line
 }
 
 export interface MultipleChoiceQuestion extends BaseQuestion {
@@ -28,12 +34,19 @@ export type QuestionData = MultipleChoiceQuestion | TrueFalseQuestion | TextQues
 
 interface QuestionProps {
   questionData: QuestionData;
-  selectedAnswer: number | string | null;
+  selectedAnswer: number | string | boolean | null;
   isAnswered: boolean;
-  onAnswerSelect: (answer: number | string) => void;
+  onAnswerSelect: (answer: number | string | boolean) => void;
 }
 
-export const Question = ({ questionData, selectedAnswer, isAnswered, onAnswerSelect }: QuestionProps) => {
+export const Question: React.FC<QuestionProps> = ({
+  questionData,
+  selectedAnswer,
+  isAnswered,
+  onAnswerSelect,
+}) => {
+  const [textInput, setTextInput] = useState('');
+
   const renderMultipleChoice = (question: MultipleChoiceQuestion) => (
     <div className="space-y-2">
       {question.options.map((option, index) => (
@@ -44,7 +57,7 @@ export const Question = ({ questionData, selectedAnswer, isAnswered, onAnswerSel
             ${isAnswered && index === question.correctAnswer ? 'bg-green-50 border-green-500' : ''}
             ${isAnswered && index === selectedAnswer && index !== question.correctAnswer ? 'bg-red-50 border-red-500' : ''}
           `}
-          onClick={() => onAnswerSelect(index)}
+          onClick={() => !isAnswered && onAnswerSelect(index)}
         >
           <div className="flex items-center justify-between">
             <span>{option}</span>
@@ -60,11 +73,75 @@ export const Question = ({ questionData, selectedAnswer, isAnswered, onAnswerSel
     </div>
   );
 
-  return (
+  const renderTrueFalse = (question: TrueFalseQuestion) => (
+    <div className="flex gap-4 justify-center">
+      {[true, false].map((value) => (
+        <Button
+          key={value.toString()}
+          variant={selectedAnswer === value ? "default" : "outline"}
+          className={`w-32 ${
+            isAnswered && value === question.correctAnswer
+              ? 'bg-green-500 hover:bg-green-600'
+              : isAnswered && value === selectedAnswer
+              ? 'bg-red-500 hover:bg-red-600'
+              : ''
+          }`}
+          onClick={() => !isAnswered && onAnswerSelect(value)}
+          disabled={isAnswered}
+        >
+          {value ? 'True' : 'False'}
+        </Button>
+      ))}
+    </div>
+  );
+
+  const renderTextInput = (question: TextQuestion) => (
     <div className="space-y-4">
-      <p className="text-lg font-medium">{questionData.question}</p>
+      <Input
+        type="text"
+        value={textInput}
+        onChange={(e) => setTextInput(e.target.value)}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter' && !isAnswered) {
+            onAnswerSelect(textInput);
+          }
+        }}
+        placeholder="Type your answer here..."
+        disabled={isAnswered}
+      />
+      {isAnswered && (
+        <div className={`p-4 rounded-lg ${
+          selectedAnswer === question.correctAnswer
+            ? 'bg-green-50 border-green-500'
+            : 'bg-red-50 border-red-500'
+        }`}>
+          <p className="font-medium">
+            {selectedAnswer === question.correctAnswer ? (
+              <span className="text-green-600">Correct!</span>
+            ) : (
+              <span className="text-red-600">
+                Incorrect. The correct answer is: {question.correctAnswer}
+              </span>
+            )}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <p className="text-lg font-medium">{questionData.question}</p>
+        {questionData.explanation && isAnswered && (
+          <p className="text-sm text-gray-600">{questionData.explanation}</p>
+        )}
+      </div>
+
+      {/* Render different question types */}
       {questionData.type === 'multiple-choice' && renderMultipleChoice(questionData)}
-      {/* Add other question type renders here */}
+      {questionData.type === 'true-false' && renderTrueFalse(questionData)}
+      {questionData.type === 'text' && renderTextInput(questionData)}
     </div>
   );
 };
