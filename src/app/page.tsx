@@ -85,7 +85,21 @@ const curriculumData = [
   }
 ];
 
-function CurriculumCard({ title, icon, description, link, className }) {
+interface CurriculumCardProps {
+  title: string;
+  icon: React.ReactNode;
+  description: string;
+  link: string;
+  className?: string;
+}
+
+function CurriculumCard({ 
+  title, 
+  icon, 
+  description, 
+  link, 
+  className 
+}: CurriculumCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true });
