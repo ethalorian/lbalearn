@@ -193,7 +193,7 @@ export default function Footer() {
                 ))}
               </div>
               <p className="text-base text-gray-500 dark:text-gray-400">
-                &copy; {new Date().getFullYear()} Web3Learn. All rights reserved.
+                &copy; {new Date().getFullYear()} Forefront. All rights reserved.
               </p>
             </div>
           </div>
