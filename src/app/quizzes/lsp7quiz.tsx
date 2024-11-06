@@ -6,14 +6,23 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ArrowRight, Check, X, RefreshCw, Book } from 'lucide-react';
 
-const LSP7Game = () => {
-  const [currentStage, setCurrentStage] = useState(0);
-  const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [gameComplete, setGameComplete] = useState(false);
+interface Stage {
+  title: string;
+  content: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string;
+}
 
-  const stages = [
+const LSP7Game = () => {
+  const [currentStage, setCurrentStage] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
+  const [answered, setAnswered] = useState<boolean>(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [gameComplete, setGameComplete] = useState<boolean>(false);
+
+  const stages: Stage[] = [
     {
       title: "Understanding LSP7 Basics",
       content: "Let's start with the fundamental concept of LSP7 Digital Assets.",
@@ -146,7 +155,7 @@ const LSP7Game = () => {
     }
   ];
 
-  const handleAnswer = (answerIndex) => {
+  const handleAnswer = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
     setAnswered(true);
     if (answerIndex === stages[currentStage].correctAnswer) {
@@ -174,7 +183,7 @@ const LSP7Game = () => {
 
   const currentQuestion = stages[currentStage];
 
-  const getButtonVariant = (index) => {
+  const getButtonVariant = (index: number): "default" | "outline" | "secondary" | "destructive" => {
     if (!answered) {
       return selectedAnswer === index ? "default" : "outline";
     }
