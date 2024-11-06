@@ -21,30 +21,37 @@ import {
 import { Plus, Trash2, Save } from 'lucide-react';
 import { QuestionData, QuestionType } from './Question';
 
-// Animation variants
 const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 50 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      staggerChildren: 0.1
+      duration: 0.6,
+      staggerChildren: 0.15,
+      type: "spring",
+      bounce: 0.3
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
+  hidden: { opacity: 0, x: -30, scale: 0.95 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.3 }
+    scale: 1,
+    transition: { 
+      duration: 0.4,
+      type: "spring",
+      bounce: 0.2
+    }
   },
   exit: {
     opacity: 0,
-    x: 20,
-    transition: { duration: 0.2 }
+    x: 30,
+    scale: 0.95,
+    transition: { duration: 0.3 }
   }
 };
 
@@ -119,18 +126,19 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
       initial="hidden"
       animate="visible"
       variants={containerVariants}
+      className="p-4"
     >
-      <Card className="w-full">
-        <CardHeader>
+      <Card className="w-full border-2">
+        <CardHeader className="bg-primary/5">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, type: "spring" }}
           >
-            <CardTitle>Quiz Builder</CardTitle>
+            <CardTitle className="text-2xl font-bold">Quiz Builder</CardTitle>
           </motion.div>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           {/* Question Type Selection */}
           <motion.div variants={itemVariants} className="space-y-2">
             <label className="text-sm font-medium">Question Type</label>
@@ -138,7 +146,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
               value={questionType}
               onValueChange={(value: QuestionType) => setQuestionType(value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="border-2 hover:border-primary/50 transition-colors">
                 <SelectValue placeholder="Select question type" />
               </SelectTrigger>
               <SelectContent>
@@ -156,6 +164,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Enter your question here..."
+              className="border-2 hover:border-primary/50 transition-colors min-h-[100px]"
             />
           </motion.div>
 
@@ -168,7 +177,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
                 animate="visible"
                 exit="exit"
                 variants={itemVariants}
-                className="space-y-2"
+                className="space-y-3"
               >
                 <label className="text-sm font-medium">Options</label>
                 <AnimatePresence>
@@ -179,17 +188,19 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.2 }}
-                      className="flex gap-2"
+                      className="flex gap-3"
                     >
                       <Input
                         value={option}
                         onChange={(e) => handleOptionChange(index, e.target.value)}
                         placeholder={`Option ${index + 1}`}
+                        className="border-2 hover:border-primary/50 transition-colors"
                       />
                       <Button
                         variant="outline"
                         size="icon"
                         onClick={() => handleRemoveOption(index)}
+                        className="border-2 hover:border-destructive/50 hover:bg-destructive/5 transition-colors"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -204,7 +215,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
                   <Button
                     variant="outline"
                     onClick={handleAddOption}
-                    className="w-full"
+                    className="w-full border-2 hover:border-primary/50 hover:bg-primary/5 transition-colors"
                   >
                     <Plus className="h-4 w-4 mr-2" /> Add Option
                   </Button>
@@ -229,7 +240,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
                     value={String(correctAnswer)}
                     onValueChange={(value) => setCorrectAnswer(Number(value))}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 hover:border-primary/50 transition-colors">
                       <SelectValue placeholder="Select correct answer" />
                     </SelectTrigger>
                     <SelectContent>
@@ -253,7 +264,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
                     value={String(correctAnswer)}
                     onValueChange={(value) => setCorrectAnswer(value === 'true')}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 hover:border-primary/50 transition-colors">
                       <SelectValue placeholder="Select correct answer" />
                     </SelectTrigger>
                     <SelectContent>
@@ -274,6 +285,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
                     value={String(correctAnswer)}
                     onChange={(e) => setCorrectAnswer(e.target.value)}
                     placeholder="Enter correct answer"
+                    className="border-2 hover:border-primary/50 transition-colors"
                   />
                 </motion.div>
               )}
@@ -287,16 +299,20 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onSave, initialQuestio
               value={explanation}
               onChange={(e) => setExplanation(e.target.value)}
               placeholder="Enter explanation for the correct answer..."
+              className="border-2 hover:border-primary/50 transition-colors min-h-[100px]"
             />
           </motion.div>
 
           {/* Save Button */}
           <motion.div
             variants={itemVariants}
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
           >
-            <Button onClick={handleSave} className="w-full">
+            <Button 
+              onClick={handleSave} 
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-all"
+            >
               <Save className="h-4 w-4 mr-2" /> Save Question
             </Button>
           </motion.div>

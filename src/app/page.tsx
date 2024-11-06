@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, BookOpen, Code, Users } from 'lucide-react';
 import { motion, AnimatePresence, useInView, LayoutGroup } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -60,28 +61,28 @@ const curriculumData = [
     icon: <Code className="w-6 h-6" />,
     description: "Learn the core concepts of blockchain technology, including distributed ledgers, consensus mechanisms, and cryptography basics.",
     link: "/LP",
-    className: "col-span-3 md:col-span-2 row-span-1 bg-pink-50 dark:bg-pink-950/30 hover:bg-pink-100 dark:hover:bg-pink-950/50"
+    className: "col-span-3 md:col-span-2 row-span-1 bg-teal-100/80 dark:bg-teal-900/30 hover:bg-teal-200/80 dark:hover:bg-teal-900/50"
   },
   {
     title: "Smart Contract Development",
     icon: <BookOpen className="w-6 h-6" />,
     description: "Master Solidity programming and learn to write, test, and deploy secure smart contracts.",
     link: "/courses/smart-contracts",
-    className: "col-span-3 md:col-span-1 row-span-1 md:row-span-2 bg-purple-50 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-950/50"
+    className: "col-span-3 md:col-span-1 row-span-1 md:row-span-2 bg-pink-100/80 dark:bg-pink-900/30 hover:bg-pink-200/80 dark:hover:bg-pink-900/50"
   },
   {
     title: "DApp Architecture",
     icon: <Users className="w-6 h-6" />,
     description: "Explore decentralized application architecture and best practices for Web3 development.",
     link: "/courses/dapp-architecture",
-    className: "col-span-3 md:col-span-1 row-span-1 bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-950/50"
+    className: "col-span-3 md:col-span-1 row-span-1 bg-teal-100/80 dark:bg-teal-900/30 hover:bg-teal-200/80 dark:hover:bg-teal-900/50"
   },
   {
     title: "Web3 Integration",
     icon: <ArrowRight className="w-6 h-6" />,
     description: "Connect your applications to the blockchain using Web3.js and ethers.js libraries.",
     link: "/courses/web3-integration",
-    className: "col-span-3 md:col-span-2 row-span-1 bg-green-50 dark:bg-green-950/30 hover:bg-green-100 dark:hover:bg-green-950/50"
+    className: "col-span-3 md:col-span-2 row-span-1 bg-pink-100/80 dark:bg-pink-900/30 hover:bg-pink-200/80 dark:hover:bg-pink-900/50"
   }
 ];
 
@@ -119,7 +120,7 @@ function CurriculumCard({
       <motion.div layout className="flex flex-col h-full">
         <motion.div layout className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
           <motion.div 
-            className="text-pink-600 dark:text-pink-500"
+            className="text-teal-600 dark:text-teal-500"
             animate={{ rotate: isOpen ? 360 : 0 }}
             transition={{ duration: 0.3 }}
           >
@@ -150,7 +151,7 @@ function CurriculumCard({
               </motion.p>
               <Link 
                 href={link}
-                className="inline-flex items-center text-pink-600 dark:text-pink-500 hover:text-pink-700 dark:hover:text-pink-400 font-medium text-sm md:text-base"
+                className="inline-flex items-center text-teal-600 dark:text-teal-500 hover:text-teal-700 dark:hover:text-teal-400 font-medium text-sm md:text-base"
               >
                 <motion.span
                   className="flex items-center gap-2"
@@ -175,14 +176,29 @@ export default function CleanLandingPage() {
 
   return (
     <LayoutGroup>
-      <div className="min-h-screen bg-white dark:bg-gray-950">
-        <motion.div 
-          ref={heroRef}
-          className="pt-20 md:pt-32 pb-12 md:pb-16 px-4 bg-white dark:bg-gray-950 relative overflow-hidden"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
+      <div className="min-h-screen bg-gradient-to-br from-white via-teal-50/50 to-pink-50/50 dark:from-gray-950 dark:via-teal-900/20 dark:to-pink-900/20">
+      <motion.div 
+        ref={heroRef}
+        className="pt-32 md:pt-32 pb-12 md:pb-16 px-4 relative overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Update the background image container */}
+        <div className="absolute inset-0 pt-24 flex items-center justify-center opacity-[0.2] dark:opacity-[0.2]">
+          <div className="relative w-full h-full">
+            <Image
+              src="/helyx.png"
+              alt=""
+              fill
+              className="object-contain"
+              priority
+              sizes="100vw"
+            />
+          </div>
+        </div>
+
+
           <motion.div 
             className="max-w-3xl mx-auto text-center space-y-6 md:space-y-8 relative z-10"
             variants={containerVariants}
@@ -195,9 +211,9 @@ export default function CleanLandingPage() {
             >
               Learn the New{" "}
               <motion.span 
-                className="text-pink-600 dark:text-pink-500 inline-block"
+                className="text-pink-600 dark:text-teal-500 inline-block"
                 animate={{ 
-                  color: ['#db2777', '#ec4899', '#db2777'],
+                  color: ['#0d9488', '#14b8a6', '#0d9488'],
                 }}
                 transition={{ 
                   duration: 3,
@@ -220,7 +236,7 @@ export default function CleanLandingPage() {
             <motion.div variants={itemVariants}>
               <Button 
                 size="lg" 
-                className="bg-pink-600 hover:bg-pink-700 dark:bg-pink-600 dark:hover:bg-pink-700 text-white gap-2 relative overflow-hidden group text-base md:text-lg px-6 md:px-8 py-4 md:py-6"
+                className="bg-gradient-to-r from-pink-500 to-teal-400 hover:from-pink-600 hover:to-teal-500 dark:from-pink-400 dark:to-teal-300 dark:hover:from-pink-500 dark:hover:to-teal-400 text-white gap-2 relative overflow-hidden group text-base md:text-lg px-6 md:px-8 py-4 md:py-6"
               >
                 <motion.span
                   className="relative z-10 flex items-center gap-2"
@@ -230,7 +246,7 @@ export default function CleanLandingPage() {
                   Get Started <ArrowRight className="h-5 md:h-6 w-5 md:w-6" />
                 </motion.span>
                 <motion.div
-                  className="absolute inset-0 bg-pink-700 dark:bg-pink-800"
+                  className="absolute inset-0 bg-gradient-to-r from-pink-600 to-teal-500 dark:from-pink-500 dark:to-teal-400"
                   initial={{ x: '-100%' }}
                   whileHover={{ x: 0 }}
                   transition={{ duration: 0.3 }}
@@ -240,7 +256,7 @@ export default function CleanLandingPage() {
           </motion.div>
 
           <motion.div 
-            className="absolute top-20 left-0 md:left-10 text-pink-600/10 dark:text-pink-500/10 scale-75 md:scale-100"
+            className="absolute top-20 left-0 md:left-10 text-teal-600/10 dark:text-teal-500/10 scale-75 md:scale-100"
             animate={{ 
               y: [0, -20, 0],
               rotate: [0, 10, 0],
@@ -271,7 +287,7 @@ export default function CleanLandingPage() {
         </motion.div>
 
         <motion.div 
-          className="py-12 md:py-16 px-4 bg-gray-50 dark:bg-gray-900"
+          className="py-12 md:py-16 px-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -311,7 +327,7 @@ export default function CleanLandingPage() {
         </motion.div>
 
         <motion.div 
-          className="py-12 md:py-16 px-4 bg-white dark:bg-gray-950"
+          className="py-12 md:py-16 px-4 bg-gradient-to-br from-white via-teal-50/50 to-pink-50/50 dark:from-gray-950 dark:via-teal-900/20 dark:to-pink-900/20"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -330,7 +346,7 @@ export default function CleanLandingPage() {
             </p>
             <Button 
               size="lg" 
-              className="bg-pink-600 hover:bg-pink-700 dark:bg-pink-600 dark:hover:bg-pink-700 text-white group"
+              className="bg-gradient-to-r from-teal-400 to-pink-500 hover:from-pink-600 hover:to-teal-500 dark:from-pink-400 dark:to-teal-300 dark:hover:from-pink-500 dark:hover:to-teal-400 text-white group"
             >
               <motion.span
                 className="flex items-center gap-2"

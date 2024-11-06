@@ -86,7 +86,7 @@ export default function Footer() {
           {/* Top section with logo and theme switcher */}
           <div className="flex items-center justify-between mb-8">
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              Web3<span className="text-pink-600">Learn</span>
+              HE<span className="text-pink-600">LYX</span>
             </div>
             <Button
               variant="ghost"

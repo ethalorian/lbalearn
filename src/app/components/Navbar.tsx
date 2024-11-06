@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Profile', href: '/profile' },
   { name: 'Learning Path', href: '/learning-pathways' },
-  { name: 'About', href: '#about' },
+  { name: 'Coding Challenge', href: '/codingchallenge' },
 ];
 
 export default function Navbar() {
@@ -21,11 +22,21 @@ export default function Navbar() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-black text-xl font-bold relative"
+            className="text-black text-2xl font-bold relative flex items-center gap-4 py-3"
           >
-            LBA<span className="text-pink-600">Learn</span>
+            <Image 
+                src="/helyx.png" 
+                alt="Helyx Logo" 
+                width={32} 
+                height={32} 
+                className="w-8 h-8"
+            />
+            <div className="flex items-center">
+              <span className="text-gray-800">HE</span>
+              <span className="text-pink-500">LYX</span>
+            </div>
             <motion.div
-              className="absolute bottom-0 left-0 h-0.5 bg-pink-600"
+              className="absolute bottom-0 left-0 right-0 h-[2px] bg-pink-500"
               initial={{ width: 0 }}
               animate={{ width: '100%' }}
               transition={{ delay: 0.5, duration: 0.8 }}
