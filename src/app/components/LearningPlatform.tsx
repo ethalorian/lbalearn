@@ -60,7 +60,7 @@ const LearningPlatform = () => {
     title: "Introduction to Web3",
     content: {
       type: "video",
-      url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      url: "https://www.youtube.com/embed/MpK_gSbstak?si=n0qJFBtTtdYsPOnJ",
       description: "Web3 Architecture Overview"
     },
     quiz: {

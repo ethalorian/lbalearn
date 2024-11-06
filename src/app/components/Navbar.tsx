@@ -8,8 +8,7 @@ import Image from 'next/image';
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Profile', href: '/profile' },
-  { name: 'Learning Path', href: '/' },
-  { name: 'Coding Challenge', href: '/' },
+  { name: 'Learn', href: '/learn' },
 ];
 
 export default function Navbar() {
